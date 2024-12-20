@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "name": "Codyssey Improved",
+    "version": "1.0",
+    "description": "Codyssey 사이트에서 편의성을 위한 크롬 확장 프로그램",
+    "permissions": ["activeTab"],
+    "content_scripts": [
+      {
+        "matches": ["https://usr.codyssey.kr/*"],
+        "js": ["content.js"],
+        "css": ["styles.css"]
+      }
+    ],
+    "icons": {
+      "16": "cim.png",
+      "48": "cim.png",
+      "128": "cim.png"
+    },
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": "cim.png"
+    }
+  }
