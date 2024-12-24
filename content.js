@@ -95,8 +95,18 @@ const toggleView = () => {
 const createCalendars = () => {
     const newCalendar = createNewCalendar();
     const originalCalendarBoard = document.querySelector('div.mBox1.mSche1.isProgress');
-    originalCalendarBoard.appendChild(newCalendar);
-    setUpToggleButtonOnOriginCalendar();
+    if (originalCalendarBoard) {
+        originalCalendarBoard.appendChild(newCalendar);
+        setUpToggleButtonOnOriginCalendar();
+    }
+}
+
+const setIndexBoxNoShow = () => {
+    const indexBox = document.getElementById('jsOpt2');
+    if (indexBox) {
+        indexBox.classList.remove('active');
+    }
 }
 
 createCalendars();
+setIndexBoxNoShow();
