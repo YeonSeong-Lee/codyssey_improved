@@ -12,70 +12,91 @@ const setUpToggleButtonOnOriginCalendar = () => {
 
 
 const createNewCalendar = () => {
-    // 메인 캘린더 컨테이너 생성
     const newCalendar = document.createElement('div');
     newCalendar.id = 'newCalendar';
-    newCalendar.className = 'fc fc-unthemed fc-ltr';
     
-    // 툴바 섹션 생성
-    const toolbar = document.createElement('div');
-    toolbar.className = 'fc-toolbar';
+    // 기본 구조 생성
+    const calendarContent = document.createElement('div');
+    calendarContent.className = 'mBox1 mSche1 isProgress';
     
-    // 툴바 왼쪽 영역
-    const toolbarLeft = document.createElement('div');
-    toolbarLeft.className = 'fc-left';
+    // 시간 테이블 생성
+    const timeTable = document.createElement('div');
+    timeTable.className = 'time-table';
     
-    // 툴바 오른쪽 영역 (버튼들)
-    const toolbarRight = document.createElement('div');
-    toolbarRight.className = 'fc-right';
+    // 헤재 날짜 기준으로 이번 주 월요일부터 일요일까지의 날짜 계산
+    const today = new Date();
+    const monday = new Date(today);
+    monday.setDate(today.getDate() - today.getDay() + 1); // 이번 주 월요일
+
+    // 헤더 행 추가
+    const days = ['시간'];
+    const dayNames = ['월', '화', '수', '목', '금', '토', '일'];
+    dayNames.forEach((day, index) => {
+        const date = new Date(monday);
+        date.setDate(monday.getDate() + index);
+        days.push(`${day}\n${date.getMonth() + 1}/${date.getDate()}`);
+    });
+
+    days.forEach(day => {
+        const dayCell = document.createElement('div');
+        dayCell.className = 'time-cell day-header';
+        dayCell.innerHTML = day.replace('\n', '<br>');
+        timeTable.appendChild(dayCell);
+    });
     
-    // Today 버튼
-    const todayButton = document.createElement('button');
-    todayButton.type = 'button';
-    todayButton.className = 'fc-today-button fc-button fc-state-default fc-corner-left fc-corner-right';
-    todayButton.textContent = 'today';
+    // 시간별 행 추가 (00:00부터 24:00까지, 30분 단위)
+    for (let timeSlot = 0; timeSlot <= 47; timeSlot++) {
+        const currentHour = Math.floor(timeSlot / 2);
+        const nextHour = Math.floor((timeSlot + 1) / 2);
+        const isFirstHalf = timeSlot % 2 === 0;
+        
+        // 시간 라벨 텍스트 생성
+        const startTime = `${currentHour.toString().padStart(2, '0')}:${isFirstHalf ? '00' : '30'}`;
+        const endTime = `${(isFirstHalf ? currentHour : nextHour).toString().padStart(2, '0')}:${isFirstHalf ? '30' : '00'}`;
+        
+        // 시간 라벨
+        const timeLabel = document.createElement('div');
+        timeLabel.className = 'time-cell time-label';
+        timeLabel.textContent = `${startTime}~${endTime}`;
+        timeTable.appendChild(timeLabel);
+        
+        // 각 요일별 셀 추가 (7일)
+        for (let day = 0; day < 7; day++) {
+            const cell = document.createElement('div');
+            cell.className = 'time-cell selectable-cell';
+            cell.dataset.timeSlot = timeSlot;
+            cell.dataset.day = day;
+            timeTable.appendChild(cell);
+        }
+    }
     
-    // 이전/다음 버튼
-    const prevButton = document.createElement('button');
-    prevButton.type = 'button';
-    prevButton.className = 'fc-prev-button fc-button fc-state-default fc-corner-left fc-corner-right';
-    prevButton.innerHTML = '<span class="fc-icon fc-icon-left-single-arrow"></span>';
+    // 드래그 선택 기능 추가
+    let isSelecting = false;
+    let isAdding = true;
+
+    timeTable.addEventListener('mousedown', (e) => {
+        if (!e.target.classList.contains('selectable-cell')) return;
+        isSelecting = true;
+        isAdding = !e.target.classList.contains('selected');
+        e.target.classList.toggle('selected');
+        e.preventDefault();
+    });
+
+    timeTable.addEventListener('mouseover', (e) => {
+        if (!isSelecting || !e.target.classList.contains('selectable-cell')) return;
+        if (isAdding) {
+            e.target.classList.add('selected');
+        } else {
+            e.target.classList.remove('selected');
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isSelecting = false;
+    });
     
-    const nextButton = document.createElement('button');
-    nextButton.type = 'button';
-    nextButton.className = 'fc-next-button fc-button fc-state-default fc-corner-left fc-corner-right';
-    nextButton.innerHTML = '<span class="fc-icon fc-icon-right-single-arrow"></span>';
-    
-    // 툴바 중앙 영역 (타이틀)
-    const toolbarCenter = document.createElement('div');
-    toolbarCenter.className = 'fc-center';
-    const title = document.createElement('h2');
-    title.textContent = 'Dec 16 – 22, 2024';
-    toolbarCenter.appendChild(title);
-    
-    // 툴바 클리어 div
-    const toolbarClear = document.createElement('div');
-    toolbarClear.className = 'fc-clear';
-    
-    // 툴바 조립
-    toolbarRight.appendChild(todayButton);
-    toolbarRight.appendChild(prevButton);
-    toolbarRight.appendChild(nextButton);
-    
-    toolbar.appendChild(toolbarLeft);
-    toolbar.appendChild(toolbarRight);
-    toolbar.appendChild(toolbarCenter);
-    toolbar.appendChild(toolbarClear);
-    
-    // 메인 캘린더에 툴바 추가
-    newCalendar.appendChild(toolbar);
-    
-    // 캘린더 뷰 컨테이너 생성
-    const viewContainer = document.createElement('div');
-    viewContainer.className = 'fc-view-container';
-    newCalendar.appendChild(viewContainer);
-    
-    newCalendar.style.display = 'none';
+    calendarContent.appendChild(timeTable);
+    newCalendar.appendChild(calendarContent);
     return newCalendar;
 }
 
