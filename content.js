@@ -8,7 +8,7 @@ const setUpToggleButtonOnOriginCalendar = () => {
     if (originalHeader) {
         const originalToggleButton = document.createElement('button');
         originalToggleButton.className = 'toggle-button';
-        originalToggleButton.textContent = 'CIM';
+        originalToggleButton.textContent = '평가요청하기';
         originalHeader.appendChild(originalToggleButton);
         originalToggleButton.addEventListener('click', toggleView);
     }
@@ -163,7 +163,7 @@ const addCurrentTimeLine = (timeTable) => {
     const existingLine = timeTable.querySelector('.current-time-line');
     if (existingLine) existingLine.remove();
 
-    const currentTime = new Date("2024-12-24 03:40:00");
+    const currentTime = new Date();
     console.log(currentTime);
     const hours = currentTime.getHours(); // 0-23
     const minutes = currentTime.getMinutes(); // 0-59
@@ -173,9 +173,7 @@ const addCurrentTimeLine = (timeTable) => {
     
     const startPosition = 10 + 40;
     const timeSlotCount = hours * 2;
-    console.log('timeSlotCount', timeSlotCount);
     const position = startPosition + (timeSlotCount * timeSlotHeight) + gapHeight * (timeSlotCount - 1) + (timeSlotHeight * 2) * (minutes / 60);
-
     // 시간 선 추가
     const timeLine = document.createElement('div');
     timeLine.className = 'current-time-line';
