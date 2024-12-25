@@ -8,7 +8,7 @@ const setUpToggleButtonOnOriginCalendar = () => {
     if (originalHeader) {
         const originalToggleButton = document.createElement('button');
         originalToggleButton.className = 'toggle-button';
-        originalToggleButton.textContent = '평가요청하기';
+        originalToggleButton.textContent = '평가 하기';
         originalHeader.appendChild(originalToggleButton);
         originalToggleButton.addEventListener('click', toggleView);
     }
@@ -144,7 +144,7 @@ const createBottomContainer = (timeTable) => {
     
     const evaluationButton = document.createElement('button');
     evaluationButton.className = 'evaluation-button';
-    evaluationButton.textContent = '평가 요청하기';
+    evaluationButton.textContent = '평가 하기';
     evaluationButton.addEventListener('click', () => {
         const selectedCells = timeTable.querySelectorAll('.selected');
         if (selectedCells.length > 0) {
