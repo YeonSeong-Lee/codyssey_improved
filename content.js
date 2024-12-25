@@ -164,7 +164,6 @@ const addCurrentTimeLine = (timeTable) => {
     if (existingLine) existingLine.remove();
 
     const currentTime = new Date();
-    console.log(currentTime);
     const hours = currentTime.getHours(); // 0-23
     const minutes = currentTime.getMinutes(); // 0-59
     
