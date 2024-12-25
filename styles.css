@@ -217,3 +217,33 @@
     z-index: 1001;
     pointer-events: none;
 }
+
+.toggle-button {
+    margin-left: 10px;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    background-color: #dae8ff;
+    color: #333;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+}
+
+
+.toggle-button::before {
+    content: '📅';
+    margin-right: 8px;
+    font-size: 16px;
+    display: inline-block;
+    vertical-align: middle;
+}
