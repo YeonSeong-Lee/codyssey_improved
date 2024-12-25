@@ -7,10 +7,23 @@
     "content_scripts": [
       {
         "matches": ["https://usr.codyssey.kr/*"],
-        "js": ["content.js"],
+        "js": ["content-script.js"],
         "css": ["styles.css"]
       }
     ],
+    "web_accessible_resources": [{
+      "resources": [
+        "content.js",
+        "calendar-utils.js",
+        "calendar-view.js",
+        "drag-handler.js",
+        "time-line-handler.js",
+        "bottom-container.js",
+        "selection-handler.js",
+        "evaluation-handler.js"
+      ],
+      "matches": ["https://usr.codyssey.kr/*"]
+    }],
     "icons": {
       "16": "cim.png",
       "48": "cim.png",

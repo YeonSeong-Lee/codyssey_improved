@@ -11,24 +11,28 @@
 
 .time-cell {
     height: 30px;
+    text-align: center;
     border: 1px solid #ddd;
     background-color: white;
     user-select: none;
 }
 
 .time-label {
-    text-align: right;
-    padding-right: 10px;
-    font-size: 10px;
+    text-align: center;
+    font-size: 12px;
     line-height: 30px;
     white-space: nowrap;
 }
 
 .day-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
+    font-weight: bold;
     font-size: 12px;
     padding: 5px;
-    height: auto;
+    height: 40px;
     line-height: 1.2;
 }
 
@@ -195,12 +199,11 @@
 /* 현재 시간 선과 점 스타일 제거 */
 .current-time-line {
     position: absolute;
-    left: 0;
-    width: calc(100% - 120px);
+    left: 120px; /* 시간 레이블 영역 너비 */
+    right: 10px; /* 패딩 고려 */
     height: 2px;
     background-color: #ff0000;
     z-index: 1000;
-    margin-left: 120px;
     pointer-events: none;
 }
 
