@@ -43,4 +43,20 @@ export const getSelectedCellsGroups = (selectedCells) => {
         dateGroups[dateKey].push(`${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`);
     });
     return dateGroups;
-}; 
+};
+
+export const getAfter30Minutes = (time) => {
+    const [hour, minute] = time.split(':').map(Number);
+    const newMinute = minute + 30;
+    const newHour = newMinute === 60 ? hour + 1 : hour;
+    const endMinute = newMinute === 60 ? '00' : String(newMinute).padStart(2, '0');
+    const endTime = `${String(newHour).padStart(2, '0')}:${endMinute}`;
+    return endTime;
+};
+
+export const getAfter6Months = (date) => {
+    const endDate = new Date(date);
+    endDate.setMonth(endDate.getMonth() + 6);
+    const rpttEndYmd = endDate.toISOString().split('T')[0];
+    return rpttEndYmd;
+};
