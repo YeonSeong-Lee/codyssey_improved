@@ -84,27 +84,71 @@ const createNewCalendar = () => {
     
     // 드래그 선택 기능 추가
     let isSelecting = false;
-    let isAdding = true;
+    let startCell = null;
+    let lastHoveredCell = null;
+    let isRemoving = false;
+
+    const clearSelection = () => {
+        const selectedCells = timeTable.querySelectorAll('.selected');
+        selectedCells.forEach(cell => cell.classList.remove('selected'));
+    };
+
+    const selectCellsBetween = (start, end, shouldRemove = false) => {
+        if (!start || !end) return;
+        
+        const startTimeSlot = parseInt(start.dataset.timeSlot);
+        const startDay = parseInt(start.dataset.day);
+        const endTimeSlot = parseInt(end.dataset.timeSlot);
+        const endDay = parseInt(end.dataset.day);
+        
+        const minTimeSlot = Math.min(startTimeSlot, endTimeSlot);
+        const maxTimeSlot = Math.max(startTimeSlot, endTimeSlot);
+        const minDay = Math.min(startDay, endDay);
+        const maxDay = Math.max(startDay, endDay);
+        
+        // 새로운 영역 선택 또는 취소
+        for (let timeSlot = minTimeSlot; timeSlot <= maxTimeSlot; timeSlot++) {
+            for (let day = minDay; day <= maxDay; day++) {
+                const cell = timeTable.querySelector(`[data-time-slot="${timeSlot}"][data-day="${day}"]`);
+                if (cell && !cell.classList.contains('disabled')) {
+                    if (shouldRemove) {
+                        cell.classList.remove('selected');
+                    } else {
+                        cell.classList.add('selected');
+                    }
+                }
+            }
+        }
+    };
 
     timeTable.addEventListener('mousedown', (e) => {
-        if (!e.target.classList.contains('selectable-cell') || e.target.classList.contains('disabled')) return;
+        const cell = e.target;
+        if (!cell.classList.contains('selectable-cell') || cell.classList.contains('disabled')) return;
+        
         isSelecting = true;
-        isAdding = !e.target.classList.contains('selected');
-        e.target.classList.toggle('selected');
+        startCell = cell;
+        lastHoveredCell = cell;
+        
+        // 이미 선택된 셀을 클릭하면 선택 취소 모드로 전환
+        isRemoving = cell.classList.contains('selected');
+        selectCellsBetween(startCell, lastHoveredCell, isRemoving);
+        
         e.preventDefault();
     });
 
-    timeTable.addEventListener('mouseover', (e) => {
-        if (!isSelecting || !e.target.classList.contains('selectable-cell') || e.target.classList.contains('disabled')) return;
-        if (isAdding) {
-            e.target.classList.add('selected');
-        } else {
-            e.target.classList.remove('selected');
-        }
+    timeTable.addEventListener('mousemove', (e) => {
+        const cell = e.target;
+        if (!isSelecting || !cell.classList.contains('selectable-cell')) return;
+        
+        lastHoveredCell = cell;
+        selectCellsBetween(startCell, lastHoveredCell, isRemoving);
     });
 
     document.addEventListener('mouseup', () => {
         isSelecting = false;
+        startCell = null;
+        lastHoveredCell = null;
+        isRemoving = false;
     });
     
     calendarContent.appendChild(timeTable);
@@ -284,7 +328,7 @@ const createEvaluationModal = () => {
             
             // 각 날짜별로 평가 요청
             Object.entries(dateGroups).forEach(([date, times]) => {
-                // 평가 요청 버튼 클릭 이벤트 시뮬레이션
+                // 평가 요청 버튼 클릭 이벤트 시뮬레���션
                 const evaluationRequestButton = document.querySelector('button.btn.btn-primary[onclick^="fnEvalReqPopup"]');
                 if (evaluationRequestButton) {
                     evaluationRequestButton.click();
