@@ -25,7 +25,7 @@ Codyssey Improved는 Codyssey 플랫폼의 편의성을 개선하기 위한 크�
 
 웹스토어를 사용하지 않고 확장 프로그램을 설치하려면 아래 단계를 따라주세요:
 
-1. 이 저장소에서 `.zip` 파일 형태로 확장 프로그램 파일을 다운로드합니다.
+1. [release note](https://github.com/YeonSeong-Lee/codyssey_improved/releases/tag/ver1)에서 `cim.zip` 파일을 다운로드합니다.
 2. 다운로드한 파일을 압축 해제합니다.
 3. Chrome 브라우저를 열고 주소창에 `chrome://extensions/`를 입력합니다.
 4. 우측 상단의 **개발자 모드**를 활성화합니다.
