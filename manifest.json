@@ -3,7 +3,6 @@
     "name": "Codyssey Improved",
     "version": "1.0",
     "description": "Codyssey 사이트에서 편의성을 위한 크롬 확장 프로그램",
-    "permissions": ["activeTab"],
     "content_scripts": [
       {
         "matches": ["https://usr.codyssey.kr/*"],

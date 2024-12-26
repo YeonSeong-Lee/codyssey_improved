@@ -45,12 +45,6 @@ Codyssey Improved는 Codyssey 플랫폼의 편의성을 개선하기 위한 크�
 - JavaScript
 - HTML/CSS
 
-## 권한 설명
-
-이 확장 프로그램은 다음과 같은 권한이 필요합니다:
-- `activeTab`: DOM 조작 및 평가 요청 기능을 위해 필요
-- `host permissions` (usr.codyssey.kr): API 통신 및 페이지 기능 개선을 위해 필요
-
 ## 개발자
 - [@YeonSeong-Lee](https://github.com/YeonSeong-Lee)
 
