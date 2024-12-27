@@ -16,20 +16,9 @@ Codyssey Improved는 Codyssey 플랫폼의 편의성을 개선하기 위한 크�
 
 ## 설치 방법
 
-### 아직 미출시
-1. [Chrome 웹 스토어](스토어_링크)에서 'Codyssey Improved' 검색
-2. "Chrome에 추가" 버튼 클릭
-3. 설치 완료
+[크롬웹스토어](https://chromewebstore.google.com/detail/codyssey-improved/dmmmabfahpkbjajgijapgfiiicdekmme)에서 다운
 
-### 웹스토어를 통하지 않고 사용하는 법
 
-웹스토어를 사용하지 않고 확장 프로그램을 설치하려면 아래 단계를 따라주세요:
-
-1. [release note](https://github.com/YeonSeong-Lee/codyssey_improved/releases/tag/ver1)에서 `cim.zip` 파일을 다운로드합니다.
-2. 다운로드한 파일을 압축 해제합니다.
-3. Chrome 브라우저를 열고 주소창에 `chrome://extensions/`를 입력합니다.
-4. 우측 상단의 **개발자 모드**를 활성화합니다.
-5. **압축 해제된 확장 프로그램 로드** 버튼을 클릭하고, 압축 해제한 폴더를 선택합니다.
 
 
 ## 사용 방법
