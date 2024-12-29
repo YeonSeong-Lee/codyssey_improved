@@ -2,7 +2,10 @@
 export const getCurrentWeekDates = () => {
     const today = new Date();
     const monday = new Date(today);
-    monday.setDate(today.getDate() - today.getDay() + 1);
+    const dayOfWeek = today.getDay();
+    // 일요일(0)인 경우 이전 주의 월요일로 설정
+    const daysToSubtract = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    monday.setDate(today.getDate() - daysToSubtract);
     return { today, monday };
 };
 
