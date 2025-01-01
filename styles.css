@@ -51,14 +51,15 @@ body {
 }
 
 .selectable-cell.already-selected {
-    background-color: #4CAF50;
+    background-color: #63aa67;
     color: white;
     cursor: pointer;
     pointer-events: auto;
+    transition: background-color 0.2s ease;
 }
 
 .selectable-cell.already-selected:hover {
-    background-color: #45a049;
+    background-color: #318136;
 }
 
 /* 모달 관련 스타일 추가 */
@@ -360,7 +361,7 @@ body {
 
 .cancel-all-button {
     padding: 10px 20px;
-    background-color: #dc3545;  /* Bootstrap의 danger 색상 */
+    background-color: #ff5722;  /* 주황-빨강 계열 색상 */
     color: white;
     border: none;
     border-radius: 4px;
@@ -369,6 +370,6 @@ body {
 }
 
 .cancel-all-button:hover {
-    background-color: #c82333;  /* 더 진한 빨간색 */
+    background-color: #f4511e;
 }
 
