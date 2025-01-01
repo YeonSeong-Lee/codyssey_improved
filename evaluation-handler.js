@@ -50,3 +50,49 @@ const requestEvaluation = (date, time) => {
         }
     })
 };
+
+
+/**
+ * 날짜별 평가시간 추출 함수
+ * @param {Array} timeList - 평가 요청 목록
+ * @returns {Object} - 날짜별 평가시간 객체
+ * @example
+ * {
+ *   "2025.01.01": ["00:00 ~ 00:30", "00:30 ~ 01:00", "01:00 ~ 01:30"],
+ *   "2025.01.02": ["00:00 ~ 00:30", "00:30 ~ 01:00", "01:00 ~ 01:30"]
+ * }
+ */
+const organizeTimeListByDate = (timeList) => {
+    return timeList.reduce((acc, item) => {
+        const date = item.bgngYmd;  // "2025.01.01" 형식
+        const timeSlot = item.fixedNm;  // "00:00 ~ 00:30" 형식
+
+        if (!acc[date]) {
+            acc[date] = [];
+        }
+        acc[date].push(timeSlot);
+
+        return acc;
+    }, {});
+};
+
+/**
+ * 평가 요청 목록 조회
+ * @param {string} startYmd - 시작 날짜 (YYYY.MM.DD)
+ * @param {string} endYmd - 종료 날짜 (YYYY.MM.DD)
+ * @returns {Promise<Response>} - 평가 요청 목록 조회 결과
+ */
+export const fetchEvaluation = (startYmd, endYmd) => {
+    const formData = new FormData()
+    formData.append('bgngYmd', startYmd);
+    formData.append('endYmd', endYmd);
+    formData.append('scheculeType', 'request');
+    formData.append('searchType', 'T');
+
+    return fetch(`https://usr.codyssey.kr/schedule/scheduleAllList/`, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => organizeTimeListByDate(data.result.timeList));
+};

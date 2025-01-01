@@ -1,4 +1,5 @@
 import { getCurrentWeekDates, formatTimeSlot, clearSelection } from './calendar-utils.js';
+import { fetchEvaluation } from './evaluation-handler.js';
 import { selectCellsBetween } from './selection-handler.js';
 import { handleEvaluationRequest } from './evaluation-handler.js';
 
@@ -107,7 +108,9 @@ const setupDragSelection = (timeTable) => {
 
     timeTable.addEventListener('mousedown', (e) => {
         const cell = e.target;
-        if (!cell.classList.contains('selectable-cell') || cell.classList.contains('disabled')) return;
+        if (!cell.classList.contains('selectable-cell') || 
+            cell.classList.contains('disabled') || 
+            cell.classList.contains('already-selected')) return;
         
         isSelecting = true;
         startCell = cell;
@@ -180,6 +183,51 @@ const addCurrentTimeLine = (timeTable) => {
     timeTable.appendChild(timeLine);
 };
 
+/**
+ * 원본 캘린더의 평가시간 목록을 새로운 캘린더에 적용하는 함수
+ * @param {Object} timeList - 날짜별 평가시간 객체
+ * @example
+ * {
+ *   "2025.01.01": ["00:00 ~ 00:30", "00:30 ~ 01:00", "01:00 ~ 01:30"],
+ *   "2025.01.02": ["00:00 ~ 00:30", "00:30 ~ 01:00", "01:00 ~ 01:30"]
+ * }
+ */
+const applyOriginTimeListToNewCalendar = (timeList) => {
+    const timeTable = document.querySelector('.time-table');
+    if (!timeTable) return;
+
+    const { monday } = getCurrentWeekDates();
+
+    Object.entries(timeList).forEach(([date, times]) => {
+        console.log('applyOriginTimeListToNewCalendar', date, times);
+        // 날짜 문자열을 Date 객체로 변환 (예: "2025.01.01" -> Date)
+        const [year, month, day] = date.split('.').map(Number);
+        const targetDate = new Date(year, month - 1, day);
+        
+        // 해당 날짜가 현재 주에 속하는지 확인
+        const currentDay = targetDate.getDay() - 1;
+        if (currentDay >= 0 && currentDay < 7) {
+            times.forEach(timeStr => {
+                // 시간 문자열에서 시작 시간 추출 (예: "00:00 ~ 00:30" -> "00:00")
+                const startTime = timeStr.split(' ~ ')[0];
+                const [hours, minutes] = startTime.split(':').map(Number);
+                
+                // timeSlot 계산 (0-47)
+                const timeSlot = hours * 2 + (minutes === 30 ? 1 : 0);
+                
+                // 해당하는 셀 찾아서 선택 표시
+                const cell = timeTable.querySelector(
+                    `[data-time-slot="${timeSlot}"][data-day="${currentDay}"]`
+                );
+                console.log('cell', cell);
+                if (cell && !cell.classList.contains('disabled')) {
+                    cell.classList.add('already-selected');
+                }
+            });
+        }
+    });
+};
+
 const createNewCalendarModal = () => {
     const modal = document.createElement('div');
     modal.id = 'newCalendarModal';
@@ -195,6 +243,16 @@ const createNewCalendarModal = () => {
         if (e.target === modal) {
             modal.style.display = 'none';
         }
+    });
+
+    const { monday } = getCurrentWeekDates();
+    const startYmd = monday.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\. /g, '.').slice(0, -1);
+    const endYmd = new Date(monday.getTime() + 6 * 24 * 60 * 60 * 1000).toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\. /g, '.').slice(0, -1);
+
+    console.log('startYmd', startYmd);
+    console.log('endYmd', endYmd);
+    fetchEvaluation(startYmd, endYmd).then(data => {
+        applyOriginTimeListToNewCalendar(data);
     });
     
     return modal;

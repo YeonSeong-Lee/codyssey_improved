@@ -50,6 +50,11 @@ body {
     color: white;
 }
 
+.selectable-cell.already-selected {
+    background-color: #4CAF50;
+    color: #4CAF50;
+}
+
 /* 모달 관련 스타일 추가 */
 .modal {
     display: none;
@@ -346,3 +351,4 @@ body {
 .footer a:hover {
     text-decoration: underline;
 }
+
