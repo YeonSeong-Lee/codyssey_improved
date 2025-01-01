@@ -52,7 +52,13 @@ body {
 
 .selectable-cell.already-selected {
     background-color: #4CAF50;
-    color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.selectable-cell.already-selected:hover {
+    background-color: #45a049;
 }
 
 /* 모달 관련 스타일 추가 */

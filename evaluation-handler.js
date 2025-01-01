@@ -58,19 +58,23 @@ const requestEvaluation = (date, time) => {
  * @returns {Object} - 날짜별 평가시간 객체
  * @example
  * {
- *   "2025.01.01": ["00:00 ~ 00:30", "00:30 ~ 01:00", "01:00 ~ 01:30"],
- *   "2025.01.02": ["00:00 ~ 00:30", "00:30 ~ 01:00", "01:00 ~ 01:30"]
+ *   "2025.01.01": [
+ *     { timeSlot: "00:00 ~ 00:30", evlScdlSn: "1" },
+ *     { timeSlot: "00:30 ~ 01:00", evlScdlSn: "2" },
+ *     { timeSlot: "01:00 ~ 01:30", evlScdlSn: "3" }
+ *   ]
  * }
  */
 const organizeTimeListByDate = (timeList) => {
     return timeList.reduce((acc, item) => {
         const date = item.bgngYmd;  // "2025.01.01" 형식
         const timeSlot = item.fixedNm;  // "00:00 ~ 00:30" 형식
+        const evlScdlSn = item.scdlId;  // 평가 일련번호
 
         if (!acc[date]) {
             acc[date] = [];
         }
-        acc[date].push(timeSlot);
+        acc[date].push({ timeSlot, evlScdlSn });
 
         return acc;
     }, {});
@@ -95,4 +99,26 @@ export const fetchEvaluation = (startYmd, endYmd) => {
     })
     .then(response => response.json())
     .then(data => organizeTimeListByDate(data.result.timeList));
+};
+
+
+/**
+ * 평가 삭제
+ * @param {string} evlScdlSn - 평가 일련번호
+ */
+export const deleteEvaluation = (evlScdlSn) => {
+    const formData = new FormData();
+    formData.append('evlScdlSn', evlScdlSn);
+
+    fetch('https://usr.codyssey.kr/schedule/psblScheduleDelete', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            console.info(`${evlScdlSn} 평가 삭제 완료`);
+        } else {
+            console.error(`${evlScdlSn} 평가 삭제 실패`);
+        }
+    });
 };
