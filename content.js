@@ -145,6 +145,12 @@ const createBottomContainer = (timeTable) => {
     clearButton.textContent = '시간 다 지우기';
     clearButton.addEventListener('click', () => clearSelection(timeTable));
     
+    // 평가 취소 버튼 추가
+    const cancelAllButton = document.createElement('button');
+    cancelAllButton.className = 'cancel-all-button';
+    cancelAllButton.textContent = '평가 전체 취소';
+    cancelAllButton.addEventListener('click', () => handleAllEvaluationCancel(timeTable));
+    
     const evaluationButton = document.createElement('button');
     evaluationButton.className = 'evaluation-button';
     evaluationButton.textContent = '평가 하기';
@@ -158,8 +164,44 @@ const createBottomContainer = (timeTable) => {
     });
     
     bottomContainer.appendChild(clearButton);
+    bottomContainer.appendChild(cancelAllButton);  // 새 버튼 추가
     bottomContainer.appendChild(evaluationButton);
     return bottomContainer;
+};
+
+// 모든 평가 취소 처리 함수
+const handleAllEvaluationCancel = async (timeTable) => {
+    const alreadySelectedCells = timeTable.querySelectorAll('.already-selected');
+    if (alreadySelectedCells.length === 0) {
+        alert('취소할 평가 요청이 없습니다.');
+        return;
+    }
+
+    if (confirm(`전체 ${alreadySelectedCells.length}개의 평가 요청을 취소하시겠습니까?`)) {
+        try {
+            // 모든 취소 요청을 동시에 처리
+            await Promise.all(
+                Array.from(alreadySelectedCells).map(cell => {
+                    const evlScdlSn = cell.dataset.evlScdlSn;
+                    return deleteEvaluation(evlScdlSn);
+                })
+            );
+            
+            // 성공적으로 취소된 셀들 초기화
+            alreadySelectedCells.forEach(cell => {
+                cell.classList.remove('already-selected');
+                delete cell.dataset.evlScdlSn;
+                
+                // 이벤트 리스너 제거
+                const newCell = cell.cloneNode(true);
+                cell.parentNode.replaceChild(newCell, cell);
+            });
+            
+        } catch (error) {
+            console.error('Error canceling all evaluations:', error);
+            alert('평가 요청 취소 중 오류가 발생했습니다.');
+        }
+    }
 };
 
 const addCurrentTimeLine = (timeTable) => {

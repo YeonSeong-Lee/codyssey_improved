@@ -358,3 +358,17 @@ body {
     text-decoration: underline;
 }
 
+.cancel-all-button {
+    padding: 10px 20px;
+    background-color: #dc3545;  /* Bootstrap의 danger 색상 */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.cancel-all-button:hover {
+    background-color: #c82333;  /* 더 진한 빨간색 */
+}
+
