@@ -142,7 +142,7 @@ const createBottomContainer = (timeTable) => {
     
     const clearButton = document.createElement('button');
     clearButton.className = 'clear-button';
-    clearButton.textContent = '시간 다 지우기';
+    clearButton.textContent = '선택된 셀 지우기';
     clearButton.addEventListener('click', () => clearSelection(timeTable));
     
     // 평가 취소 버튼 추가
