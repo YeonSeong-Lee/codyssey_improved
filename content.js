@@ -1,4 +1,4 @@
-import { getCurrentWeekDates, formatTimeSlot, clearSelection } from './calendar-utils.js';
+import { getCurrentWeekDates, formatTimeSlot, clearSelection, getDayStartMonday } from './calendar-utils.js';
 import { fetchEvaluation, deleteEvaluation } from './evaluation-handler.js';
 import { selectCellsBetween } from './selection-handler.js';
 import { handleEvaluationRequest } from './evaluation-handler.js';
@@ -238,19 +238,16 @@ const applyOriginTimeListToNewCalendar = (timeList) => {
     const timeTable = document.querySelector('.time-table');
     if (!timeTable) return;
 
-    const { monday } = getCurrentWeekDates();
-
     Object.entries(timeList).forEach(([date, times]) => {
         const [year, month, day] = date.split('.').map(Number);
         const targetDate = new Date(year, month - 1, day);
         
         // 해당 날짜가 현재 주에 속하는지 확인
-        const currentDay = targetDate.getDay() - 1;
-        if (currentDay >= 0 && currentDay < 7) {
-            times.forEach(({ timeSlot: curTimeSlot, evlScdlSn }) => {
-                const startTime = curTimeSlot.split(' ~ ')[0];
-                const [hours, minutes] = startTime.split(':').map(Number);
-                
+        const currentDay = getDayStartMonday(targetDate);
+        times.forEach(({ timeSlot: curTimeSlot, evlScdlSn }) => {
+            const startTime = curTimeSlot.split(' ~ ')[0];
+            const [hours, minutes] = startTime.split(':').map(Number);
+            
                 // timeSlot 계산 (0-47)
                 const timeSlot = hours * 2 + (minutes === 30 ? 1 : 0);
                 
@@ -268,9 +265,8 @@ const applyOriginTimeListToNewCalendar = (timeList) => {
                             handleEvaluationCancel(cell);
                         }
                     });
-                }
-            });
-        }
+            }
+        });
     });
 };
 

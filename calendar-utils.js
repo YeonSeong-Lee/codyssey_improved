@@ -63,3 +63,12 @@ export const getAfter6Months = (date) => {
     const rpttEndYmd = endDate.toISOString().split('T')[0];
     return rpttEndYmd;
 };
+
+/**
+ * 월요일 기준으로 요일 계산
+ * 월 : 0, 화 : 1, 수 : 2, 목 : 3, 금 : 4, 토 : 5, 일 : 6
+ */
+export const getDayStartMonday = (date) => {
+    const day = new Date(date).getDay()
+    return day === 0 ? 6 : day - 1
+};
