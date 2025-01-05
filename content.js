@@ -344,5 +344,23 @@ const setIndexBoxNoShow = () => {
     }
 }
 
+const changeInputToTextArea = () => {
+    const input = document.getElementById('evlFdbkCn');
+    if (input) {
+        const textarea = document.createElement('textarea');
+        textarea.id = 'evlFdbkCn';
+        textarea.type = 'text';
+        textarea.name = input.name;
+        textarea.value = input.value;
+        textarea.className = 'it h48';
+        textarea.title = '평가 피드백';
+        textarea.placeholder = '내용';
+        textarea.style.width = '808px';
+        textarea.style.height = '200px';
+        input.parentNode.replaceChild(textarea, input);
+    }
+}
+
 createCalendars();
 setIndexBoxNoShow();
+changeInputToTextArea();
