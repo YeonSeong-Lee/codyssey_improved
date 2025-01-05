@@ -316,8 +316,6 @@ const createNewCalendarModal = () => {
     const startYmd = monday.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\. /g, '.').slice(0, -1);
     const endYmd = new Date(monday.getTime() + 6 * 24 * 60 * 60 * 1000).toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\. /g, '.').slice(0, -1);
 
-    console.log('startYmd', startYmd);
-    console.log('endYmd', endYmd);
     fetchEvaluation(startYmd, endYmd).then(data => {
         applyOriginTimeListToNewCalendar(data);
     });
