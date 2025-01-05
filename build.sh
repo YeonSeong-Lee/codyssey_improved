@@ -11,14 +11,14 @@ fi
 
 # 필요한 파일들 배열
 files=(
-    "calendar-utils.js",
-    "cim.png",
-    "content-script.js",
-    "content.js",
-    "evaluation-handler.js",
-    "manifest.json",
-    "popup.html",
-    "selection-handler.js",
+    "calendar-utils.js"
+    "cim.png"
+    "content-script.js"
+    "content.js"
+    "evaluation-handler.js"
+    "manifest.json"
+    "popup.html"
+    "selection-handler.js"
     "styles.css"
 )
 
