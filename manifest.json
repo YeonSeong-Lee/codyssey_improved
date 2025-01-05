@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Codyssey Improved",
-    "version": "2.0",
+    "version": "2.1",
     "description": "Codyssey 사이트에서 편의성을 위한 크롬 확장 프로그램",
     "content_scripts": [
       {
