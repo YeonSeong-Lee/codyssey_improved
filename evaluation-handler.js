@@ -8,9 +8,9 @@ export const handleEvaluationRequest = (selectedCells) => {
     Object.entries(dateGroups).forEach(([date, times]) => {
         requestEvaluations(date, times);
     });
-};
+}
 
-async function requestEvaluations(date, selectedTimes) {
+const requestEvaluations = async (date, selectedTimes) => {
     const promises = [];
     for (const time of selectedTimes) {
         promises.push(requestEvaluation(date, time));

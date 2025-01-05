@@ -28,10 +28,13 @@ const createNewCalendar = () => {
     newCalendar.appendChild(calendarContent);
     
     // 현재 시간 선 추가
-    addCurrentTimeLine(timeTable);
+    updateCurrentTimeLine(timeTable);
+
     // 1분마다 시간 선 위치 업데이트
-    setInterval(() => addCurrentTimeLine(timeTable), 60000);
+    setInterval(() => updateCurrentTimeLine(timeTable), 60000);
     
+    // 30분마다 비활성화 셀 업데이트
+    setInterval(() => updateDisabledCells(timeTable), 30 * 60 * 1000);
     return newCalendar;
 };
 
@@ -204,7 +207,7 @@ const handleAllEvaluationCancel = async (timeTable) => {
     }
 };
 
-const addCurrentTimeLine = (timeTable) => {
+const updateCurrentTimeLine = (timeTable) => {
     const existingLine = timeTable.querySelector('.current-time-line');
     if (existingLine) existingLine.remove();
 
@@ -359,6 +362,26 @@ const changeInputToTextArea = () => {
         textarea.style.height = '200px';
         input.parentNode.replaceChild(textarea, input);
     }
+}
+
+const updateDisabledCells = (timeTable) => {
+    const { today } = getCurrentWeekDates()
+    const currentDay = today.getDay() || 7
+    const currentHour = today.getHours()
+    const currentMinute = today.getMinutes()
+    const currentTimeSlot = currentHour * 2 + (currentMinute >= 30 ? 1 : 0)
+
+    // 모든 선택 가능한 셀을 순회
+    const cells = timeTable.querySelectorAll('.selectable-cell')
+    cells.forEach(cell => {
+        const cellDay = parseInt(cell.dataset.day) + 1 // 0-based to 1-based
+        const cellTimeSlot = parseInt(cell.dataset.timeSlot)
+
+        // 과거 날짜이거나 현재 날짜의 지난 시간인 경우 비활성화
+        if (cellDay < currentDay || (cellDay === currentDay && cellTimeSlot <= currentTimeSlot)) {
+            cell.classList.add('disabled')
+        }
+    })
 }
 
 createCalendars();
