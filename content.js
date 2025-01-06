@@ -350,7 +350,6 @@ const changeInputToTextArea = () => {
     if (input) {
         const textarea = document.createElement('textarea');
         textarea.id = 'evlFdbkCn';
-        textarea.type = 'text';
         textarea.name = input.name;
         textarea.value = input.value;
         textarea.className = 'it h48';
