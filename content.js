@@ -46,7 +46,7 @@ const createTimeTable = () => {
     const currentDay = today.getDay() || 7;
     const currentHour = today.getHours();
     const currentMinute = today.getMinutes();
-    const currentTimeSlot = currentHour * 2 + (currentMinute >= 30 ? 1 : 0);
+    const currentTimeSlot = currentHour * 2 + (currentMinute >= 30 ? 1 : 0) - 1;
     
     addHeaderRow(timeTable);
     addTimeSlots(timeTable, currentDay, currentTimeSlot);
@@ -366,7 +366,7 @@ const updateDisabledCells = (timeTable) => {
     const currentDay = today.getDay() || 7
     const currentHour = today.getHours()
     const currentMinute = today.getMinutes()
-    const currentTimeSlot = currentHour * 2 + (currentMinute >= 30 ? 1 : 0)
+    const currentTimeSlot = currentHour * 2 + (currentMinute >= 30 ? 1 : 0) - 1
 
     // 모든 선택 가능한 셀을 순회
     const cells = timeTable.querySelectorAll('.selectable-cell')
