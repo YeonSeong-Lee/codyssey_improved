@@ -373,3 +373,136 @@ body {
     background-color: #f4511e;
 }
 
+/* CIM: React Big Calendar 월간 뷰(/main/month) 전체 일정 표시 (해당 화면에만 적용) */
+body.cim-rbc-month .rbc-month-row .cim-rbc-extra-row {
+    min-height: 22px;
+}
+
+body.cim-rbc-month .rbc-month-row .cim-rbc-extra-row .rbc-row-segment {
+    box-sizing: border-box;
+    padding: 0 1px 1px;
+    display: block;
+    min-width: 0;
+}
+
+body.cim-rbc-month .rbc-month-row .cim-rbc-extra-row .cim-rbc-chip {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+body.cim-rbc-month .rbc-month-view .rbc-month-row {
+    overflow: visible;
+}
+
+body.cim-rbc-month .rbc-month-view .rbc-row-content {
+    overflow: visible;
+}
+
+body.cim-rbc-month .rbc-month-view .rbc-row-bg {
+    bottom: 0;
+}
+
+/* +N(더보기) 버튼은 숨긴다 */
+body.cim-rbc-month .rbc-show-more.cim-rbc-hidden {
+    display: none !important;
+}
+
+/* 콘텐츠가 늘어나도 행/셀 구조가 망가지지 않게 한다 */
+body.cim-rbc-month .rbc-month-view .rbc-row-bg .rbc-day-bg {
+    min-height: 100%;
+}
+
+body.cim-rbc-month .cim-rbc-extra-row {
+    align-items: flex-start;
+}
+
+/* 칩이 날짜 칸에서 벗어나지 않게 하고, 제목 라벨은 한 줄로 유지한다 */
+body.cim-rbc-month .rbc-month-view .rbc-row-segment {
+    overflow: hidden;
+    min-width: 0;
+    padding-left: 1px !important;
+    padding-right: 1px !important;
+}
+
+body.cim-rbc-month .rbc-month-view .rbc-event,
+body.cim-rbc-month .cim-rbc-chip {
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: auto !important;
+}
+
+body.cim-rbc-month .cim-rbc-chip .rbc-event-content,
+body.cim-rbc-month .cim-rbc-chip .cim-chip-inner {
+    overflow: hidden;
+    min-width: 0;
+}
+
+body.cim-rbc-month .cim-rbc-chip .rbc-event-content,
+body.cim-rbc-month .cim-rbc-chip .calendar-event {
+    overflow: hidden;
+    min-width: 0;
+}
+
+body.cim-rbc-month .cim-rbc-chip .calendar-event p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+}
+
+body.cim-rbc-month .cim-rbc-chip .calendar-event .duration,
+body.cim-rbc-month .cim-rbc-chip .calendar-event .event-tag {
+    white-space: nowrap;
+}
+
+/* 세그먼트가 잘라도 칩의 둥근 모서리가 보이게 한다 */
+body.cim-rbc-month .rbc-month-view .rbc-event,
+body.cim-rbc-month .cim-rbc-chip {
+    width: auto !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* 칩이 날짜 칸 안을 꽉 채우도록 한다 (오른쪽 빈틈 수정, 둥근 모서리 유지) */
+body.cim-rbc-month .rbc-month-view .rbc-row-segment {
+    display: block !important;
+    overflow: hidden !important;
+    min-width: 0 !important;
+    padding-left: 1px !important;
+    padding-right: 1px !important;
+}
+
+body.cim-rbc-month .rbc-month-view .rbc-row-segment > .rbc-event,
+body.cim-rbc-month .rbc-month-view .rbc-row-segment > .cim-rbc-chip,
+body.cim-rbc-month .cim-rbc-chip {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+    border-radius: 4px !important;
+    overflow: hidden !important;
+}
+
+/* 지난/완료/취소 일정은 옅게 표시한다 (기존 이벤트와 CIM 칩 모두) */
+body.cim-rbc-month .rbc-month-view .rbc-event.cim-past,
+body.cim-rbc-month .rbc-month-view .cim-rbc-chip.cim-past,
+body.cim-rbc-month .rbc-month-view .rbc-event .event-over,
+body.cim-rbc-month .rbc-month-view .rbc-event:has(.event-over) {
+    opacity: 0.55;
+    filter: saturate(0.55);
+}
+
+body.cim-rbc-month .rbc-month-view .cim-rbc-chip.cim-past:hover {
+    opacity: 0.7;
+}
