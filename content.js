@@ -1102,6 +1102,17 @@ changeInputToTextArea();
     };
 
     // 빈 날짜 칸 클릭 시 기존 '오픈 스케줄등록'과 같은 동작을 실행한다
+    // '오픈 스케줄등록' 모달이 화면 정가운데 뜨도록 위치 보정(빈 날짜 클릭 시 더블 센터링 방지)
+    const centerOpenScheduleModal = () => {
+        const modal = Array.from(document.querySelectorAll('.modal-overlay .modal-content')).find((el) => el.querySelector('.open-schedule-popup'));
+        if (!modal) return;
+        try {
+            modal.style.top = 'auto';
+            modal.style.left = 'auto';
+            modal.style.transform = 'none';
+        } catch (_) {}
+    };
+
     const onEmptyDayClick = (e) => {
         if (!isMonthRoute()) return;
         const target = e.target;
@@ -1128,8 +1139,12 @@ changeInputToTextArea();
         e.stopPropagation();
         const button = findOpenScheduleBtn();
         if (button) button.click();
-        setTimeout(() => prefillDate(dateKey), 120);
-        setTimeout(() => prefillDate(dateKey), 400);
+        [60, 120, 250, 400].forEach((delay) => {
+            setTimeout(() => {
+                prefillDate(dateKey);
+                centerOpenScheduleModal();
+            }, delay);
+        });
     };
 
     const install = () => {

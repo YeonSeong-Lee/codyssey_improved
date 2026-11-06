@@ -506,3 +506,10 @@ body.cim-rbc-month .rbc-month-view .rbc-event:has(.event-over) {
 body.cim-rbc-month .rbc-month-view .cim-rbc-chip.cim-past:hover {
     opacity: 0.7;
 }
+
+/* 빈 날짜 클릭으로 열리는 오픈 스케줄등록 모달이 정가운데 뜨도록 위치 보정(더블 센터링 방지) */
+body.cim-rbc-month .modal-overlay .modal-content:has(.open-schedule-popup) {
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+}
